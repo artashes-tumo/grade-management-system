@@ -10,8 +10,8 @@ const defaultGradesSem1 = {
   'Science':        { A: 5, B: 4, C: 4, D: 3 },   // Total: 16 → Final: 4
   'Mathematics':    { A: 4, B: 3, C: 3, D: 2 },   // Total: 12 → Final: 3
   'P.E.':           { A: 3, B: 2, C: 2, D: 1 },   // Total: 8  → Final: 2
-  'Multimedia':     { A: 8, B: 7, C: 8, D: 7 },   // Total: 30 → Final: 7
-  'Programming':    { A: 1, B: 2, C: 1, D: 1 }    // Total: 5  → Final: 1
+  'Programming':     { A: 8, B: 7, C: 8, D: 7 },   // Total: 30 → Final: 7
+  'Multimedia':    { A: 1, B: 2, C: 1, D: 1 }    // Total: 5  → Final: 1
 };
 const defaultGradesSem2 = {};
 
