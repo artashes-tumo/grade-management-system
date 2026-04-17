@@ -3,16 +3,7 @@
 // Default grades for Semester 1 (original data, criteria 1-8)
 // Default grades for Semester 1 (varied for good overview - grades from 1 to 8)
 // Default grades for Semester 1 - varied to clearly show ALL final MYP grades from 1 to 7
-const defaultGradesSem1 = {
-  'English ELA':    { A: 8, B: 8, C: 8, D: 8 },   // Total: 32 → Final: 7
-  'German':         { A: 7, B: 7, C: 6, D: 5 },   // Total: 25 → Final: 6
-  'Geography':      { A: 6, B: 6, C: 5, D: 4 },   // Total: 21 → Final: 5
-  'Science':        { A: 5, B: 4, C: 4, D: 3 },   // Total: 16 → Final: 4
-  'Mathematics':    { A: 4, B: 3, C: 3, D: 2 },   // Total: 12 → Final: 3
-  'P.E.':           { A: 3, B: 2, C: 2, D: 1 },   // Total: 8  → Final: 2
-  'Programming':     { A: 8, B: 7, C: 8, D: 7 },   // Total: 30 → Final: 7
-  'Multimedia':    { A: 1, B: 2, C: 1, D: 1 }    // Total: 5  → Final: 1
-};
+const defaultGradesSem1 = {};
 const defaultGradesSem2 = {};
 
 // Map total score (4–32) to final grade (1–7)
