@@ -3,339 +3,142 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grade Management System</title>
+    <title>Grade Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
-    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
-
-    <div class="bg-grid" aria-hidden="true"></div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <main class="page">
-      <div class="page-inner">
-
-        <!-- ═══════════════ HEADER ═══════════════ -->
-        <header class="site-header">
-          <div class="header-brand">
-            <div class="brand-icon" aria-hidden="true">
-              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="12" height="12" rx="3" fill="currentColor" opacity="0.9"/>
-                <rect x="18" y="2" width="12" height="12" rx="3" fill="currentColor" opacity="0.5"/>
-                <rect x="2" y="18" width="12" height="12" rx="3" fill="currentColor" opacity="0.5"/>
-                <rect x="18" y="18" width="12" height="12" rx="3" fill="currentColor" opacity="0.2"/>
-              </svg>
-            </div>
-            <div class="brand-text">
-              <h1 class="brand-title">Grade Tracker</h1>
-              <p class="brand-sub">IB MYP · Criteria A–D · Semesters 1 &amp; 2</p>
-            </div>
+      <!-- ═══════════ HEADER ═══════════ -->
+      <header class="top">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">7</div>
+          <div>
+            <h1 class="brand-title">Grade Tracker</h1>
+            <p class="brand-sub">IB MYP · Criteria A–D · <span id="subject-count">0</span> subjects</p>
           </div>
-
-          <div class="legend" aria-label="Colour-coding legend">
-            <p class="legend-heading">Colour key</p>
-            <div class="legend-groups">
-              <div class="legend-group">
-                <span class="legend-scope">Criteria (1–8)</span>
-                <span class="chip chip-green">7–8</span>
-                <span class="chip chip-yellow">5–6</span>
-                <span class="chip chip-red">1–4</span>
-              </div>
-              <div class="legend-group">
-                <span class="legend-scope">Total (0–32)</span>
-                <span class="chip chip-green">24–32</span>
-                <span class="chip chip-yellow">16–23</span>
-                <span class="chip chip-red">≤15</span>
-              </div>
-              <div class="legend-group">
-                <span class="legend-scope">Final (1–7)</span>
-                <span class="chip chip-green">7</span>
-                <span class="chip chip-yellow">5–6</span>
-                <span class="chip chip-red">1–4</span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <!-- ═══════════════ TABS ═══════════════ -->
-        <nav class="tabs" role="tablist" aria-label="Select semester">
-          <button class="tab-btn active" data-sem="1" role="tab" aria-selected="true" aria-controls="sem1" id="tab-1">
-            <span class="tab-indicator" aria-hidden="true"></span>
-            Semester 1
+        </div>
+        <div class="top-actions">
+          <button id="setup-btn" class="btn btn-ghost" type="button">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.433 13.917l1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65z"/><path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z"/></svg>
+            My subjects
           </button>
-          <button class="tab-btn" data-sem="2" role="tab" aria-selected="false" aria-controls="sem2" id="tab-2">
-            <span class="tab-indicator" aria-hidden="true"></span>
-            Semester 2
-          </button>
-        </nav>
-
-        <!-- ═══════════════ SEMESTER 1 ═══════════════ -->
-        <section id="sem1" class="semester" role="tabpanel" aria-labelledby="tab-1">
-          <div class="card-header">
-            <span class="card-header-label">Subject Grades — Criteria A–D &amp; Final</span>
-            <span class="sem-badge">Sem 1</span>
-          </div>
-          <div class="table-scroll">
-            <table aria-label="Semester 1 grades by subject and criterion">
-              <thead>
-                <tr>
-                  <th scope="col" class="th-subject">Subject</th>
-                  <th scope="col">A</th>
-                  <th scope="col">B</th>
-                  <th scope="col">C</th>
-                  <th scope="col">D</th>
-                  <th scope="col" class="th-total">Total</th>
-                  <th scope="col" class="th-final">Final</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr data-subject="English">
-                  <th scope="row" class="subject-cell">English</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="German">
-                  <th scope="row" class="subject-cell">German</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Geography">
-                  <th scope="row" class="subject-cell">Geography</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Science">
-                  <th scope="row" class="subject-cell">Science</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Mathematics">
-                  <th scope="row" class="subject-cell">Mathematics</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="P.E.">
-                  <th scope="row" class="subject-cell">P.E.</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Multimedia">
-                  <th scope="row" class="subject-cell">Multimedia</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Programming">
-                  <th scope="row" class="subject-cell">Programming</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                 <tr data-subject="Chips">
-                  <th scope="row" class="subject-cell">Chips</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- ═══════════════ SEMESTER 2 ═══════════════ -->
-        <section id="sem2" class="semester hidden" role="tabpanel" aria-labelledby="tab-2">
-          <div class="card-header">
-            <span class="card-header-label">Subject Grades — Criteria A–D &amp; Final</span>
-            <span class="sem-badge">Sem 2</span>
-          </div>
-          <div class="table-scroll">
-            <table aria-label="Semester 2 grades by subject and criterion">
-              <thead>
-                <tr>
-                  <th scope="col" class="th-subject">Subject</th>
-                  <th scope="col">A</th>
-                  <th scope="col">B</th>
-                  <th scope="col">C</th>
-                  <th scope="col">D</th>
-                  <th scope="col" class="th-total">Total</th>
-                  <th scope="col" class="th-final">Final</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr data-subject="English">
-                  <th scope="row" class="subject-cell">English</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="German">
-                  <th scope="row" class="subject-cell">German</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="History">
-                  <th scope="row" class="subject-cell">History</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Science">
-                  <th scope="row" class="subject-cell">Science</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Mathematics">
-                  <th scope="row" class="subject-cell">Mathematics</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="P.E.">
-                  <th scope="row" class="subject-cell">P.E.</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Multimedia">
-                  <th scope="row" class="subject-cell">Multimedia</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Programming">
-                  <th scope="row" class="subject-cell">Programming</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-                <tr data-subject="Contemporary Studies">
-                  <th scope="row" class="subject-cell">Contemporary Studies</th>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="A" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="B" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="C" placeholder="—" /></td>
-                  <td class="grade-cell"><input type="number" min="1" max="8" step="1" data-crit="D" placeholder="—" /></td>
-                  <td class="grade-cell total-cell"><input type="number" data-crit="Total" readonly tabindex="-1" /></td>
-                  <td class="grade-cell final-cell"><input type="number" data-crit="Final" readonly tabindex="-1" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- ═══════════════ ACTION BAR ═══════════════ -->
-        <div class="action-bar">
-          <p class="action-hint">
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 4.5a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM7.25 7.5a.75.75 0 0 1 1.5 0v3.5a.75.75 0 0 1-1.5 0V7.5z"/></svg>
-            Grades are saved per semester to your browser's local storage.
-          </p>
-          <button id="save-btn" class="save-btn" type="button">
-            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2 4.25A2.25 2.25 0 0 1 4.25 2h9.198c.597 0 1.169.237 1.59.659l2.303 2.302c.422.422.659.994.659 1.591V15.75A2.25 2.25 0 0 1 15.75 18H4.25A2.25 2.25 0 0 1 2 15.75V4.25zm12 10.25a1.75 1.75 0 1 0-3.5 0 1.75 1.75 0 0 0 3.5 0zM5.5 4.5v3A.5.5 0 0 0 6 8h6a.5.5 0 0 0 .5-.5v-3A.5.5 0 0 0 12 4H6a.5.5 0 0 0-.5.5z"/></svg>
-            Save Grades
+          <button id="save-btn" class="btn btn-primary" type="button">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143z" clip-rule="evenodd"/></svg>
+            <span class="save-label">Save</span>
           </button>
         </div>
+      </header>
 
-        <!-- ═══════════════ DISTRIBUTION PANEL ═══════════════ -->
-        <section class="dist-panel" aria-labelledby="dist-title">
-          <div class="dist-header">
-            <div>
-              <h2 id="dist-title" class="dist-title">Grade Distribution</h2>
-              <p class="dist-sub">Criteria A–D frequency for the active semester</p>
-            </div>
-            <div class="dist-total-wrap" aria-live="polite">
-              <span class="dist-total-label">Filled</span>
-              <span id="dist-filled" class="dist-total-val">0</span>
-              <span class="dist-total-denom">/ <span id="dist-possible">0</span></span>
-            </div>
-          </div>
-          <div class="dist-bars" id="dist-bars" aria-label="Grade distribution bars">
-            <!-- JS renders these -->
-          </div>
-        </section>
-
-        <!-- ═══════════════ SCALE REFERENCE ═══════════════ -->
-        <section class="scale-section" aria-labelledby="scale-title">
-          <h2 id="scale-title" class="scale-title">Final Grade Scale</h2>
-          <p class="scale-sub">IB MYP summative 1–7 grade mapped from total criteria score (max 32)</p>
-          <div class="scale-grid">
-            <div class="scale-card g7"><span class="scale-range">28–32</span><span class="scale-g">7</span><span class="scale-desc">Excellent</span></div>
-            <div class="scale-card g6"><span class="scale-range">24–27</span><span class="scale-g">6</span><span class="scale-desc">Very Good</span></div>
-            <div class="scale-card g5"><span class="scale-range">19–23</span><span class="scale-g">5</span><span class="scale-desc">Good</span></div>
-            <div class="scale-card g4"><span class="scale-range">15–18</span><span class="scale-g">4</span><span class="scale-desc">Satisfactory</span></div>
-            <div class="scale-card g3"><span class="scale-range">10–14</span><span class="scale-g">3</span><span class="scale-desc">Approaching</span></div>
-            <div class="scale-card g2"><span class="scale-range">6–9</span><span class="scale-g">2</span><span class="scale-desc">Developing</span></div>
-            <div class="scale-card g1"><span class="scale-range">0–5</span><span class="scale-g">1</span><span class="scale-desc">Beginning</span></div>
-          </div>
-        </section>
-
-        <!-- ═══════════════ FOOTER ═══════════════ -->
-        <footer class="page-footer">
-          Criteria A–D are scored 1–8 each (total max&nbsp;32). The final summative grade (1–7) is derived from the total using the scale above. Data is stored locally in your browser — no server involved.
-        </footer>
-
+      <!-- ═══════════ SEMESTER SWITCH + SUMMARY ═══════════ -->
+      <div class="toolbar">
+        <div class="segmented" role="tablist" aria-label="Select semester">
+          <button class="seg-btn active" data-sem="sem1" role="tab" aria-selected="true">Semester 1</button>
+          <button class="seg-btn" data-sem="sem2" role="tab" aria-selected="false">Semester 2</button>
+        </div>
+        <div class="legend" aria-label="Colour key">
+          <span class="dot dot-green"></span>7–8
+          <span class="dot dot-yellow"></span>5–6
+          <span class="dot dot-red"></span>1–4
+        </div>
       </div>
+
+      <section class="stats" aria-label="Semester summary">
+        <div class="stat">
+          <span class="stat-label">Average final</span>
+          <span class="stat-value" id="stat-avg">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Best subject</span>
+          <span class="stat-value stat-text" id="stat-best">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Completed</span>
+          <span class="stat-value"><span id="stat-done">0</span><small> / <span id="stat-total">0</span></small></span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Criteria filled</span>
+          <span class="stat-value"><span id="stat-filled">0</span><small> / <span id="stat-possible">0</span></small></span>
+        </div>
+      </section>
+
+      <!-- ═══════════ GRADE TABLE ═══════════ -->
+      <section class="card" aria-labelledby="grades-title">
+        <div class="card-head">
+          <h2 id="grades-title" class="card-title">Subjects</h2>
+          <p class="card-sub">Enter each criterion 1–8. Total and final grade fill in automatically.</p>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" class="th-subject">Subject</th>
+                <th scope="col">A</th>
+                <th scope="col">B</th>
+                <th scope="col">C</th>
+                <th scope="col">D</th>
+                <th scope="col" class="th-total">Total</th>
+                <th scope="col" class="th-final">Final</th>
+              </tr>
+            </thead>
+            <tbody id="grade-body"><!-- rendered by script.js --></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ═══════════ DISTRIBUTION + SCALE ═══════════ -->
+      <div class="two-col">
+        <section class="card" aria-labelledby="dist-title">
+          <div class="card-head">
+            <h2 id="dist-title" class="card-title">Distribution</h2>
+            <p class="card-sub">How often each criterion score appears this semester</p>
+          </div>
+          <div class="dist-bars" id="dist-bars"></div>
+        </section>
+
+        <section class="card" aria-labelledby="scale-title">
+          <div class="card-head">
+            <h2 id="scale-title" class="card-title">Final grade scale</h2>
+            <p class="card-sub">Total out of 32 → MYP grade 1–7</p>
+          </div>
+          <ol class="scale">
+            <li class="s7"><b>7</b><span>28–32</span><em>Excellent</em></li>
+            <li class="s6"><b>6</b><span>24–27</span><em>Very good</em></li>
+            <li class="s5"><b>5</b><span>19–23</span><em>Good</em></li>
+            <li class="s4"><b>4</b><span>15–18</span><em>Satisfactory</em></li>
+            <li class="s3"><b>3</b><span>10–14</span><em>Approaching</em></li>
+            <li class="s2"><b>2</b><span>6–9</span><em>Developing</em></li>
+            <li class="s1"><b>1</b><span>0–5</span><em>Beginning</em></li>
+          </ol>
+        </section>
+      </div>
+
+      <footer class="foot">Saved in this browser only — nothing leaves your device.</footer>
     </main>
+
+    <!-- ═══════════ SETUP DIALOG ═══════════ -->
+    <dialog id="setup" class="setup" aria-labelledby="setup-title">
+      <form id="setup-form" method="dialog">
+        <div class="setup-head">
+          <p class="setup-step" id="setup-step">Step 1 of 4</p>
+          <h2 id="setup-title" class="setup-title">What subjects do you have?</h2>
+          <div class="progress" aria-hidden="true"><span id="setup-progress"></span></div>
+        </div>
+
+        <div class="setup-body" id="setup-body"><!-- rendered by script.js --></div>
+
+        <p class="setup-error" id="setup-error" role="alert"></p>
+
+        <div class="setup-foot">
+          <button type="button" class="btn btn-ghost" id="setup-back">Back</button>
+          <button type="button" class="btn btn-primary" id="setup-next">Next</button>
+        </div>
+      </form>
+    </dialog>
 
     <script src="script.js"></script>
   </body>
